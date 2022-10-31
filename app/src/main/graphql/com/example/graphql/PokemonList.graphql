@@ -1,0 +1,8 @@
+query PokemonList {
+    findAll {
+        id
+        name
+        front_default
+        types
+    }
+}
