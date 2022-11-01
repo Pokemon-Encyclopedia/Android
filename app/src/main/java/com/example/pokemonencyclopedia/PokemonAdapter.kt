@@ -2,6 +2,7 @@ package com.example.pokemonencyclopedia
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,6 +14,11 @@ class PokemonAdapter(private val list: List<PokemonListQuery.FindAll>, private v
         val view = PokemonItemBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(view)
     }
+
+    interface ItemClick {
+        fun onClick(view: View, data: PokemonListQuery.FindAll, position: Int)
+    }
+    var itemClick: ItemClick? = null
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(list[position])
@@ -30,6 +36,13 @@ class PokemonAdapter(private val list: List<PokemonListQuery.FindAll>, private v
                 .into(binding.image)
 
             binding.name.text = findAll.name
+
+            val pos = adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                binding.image.setOnClickListener {
+                    itemClick?.onClick(itemView, findAll, pos)
+                }
+            }
         }
     }
 }
