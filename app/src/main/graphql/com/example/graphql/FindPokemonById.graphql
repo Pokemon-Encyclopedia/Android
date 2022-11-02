@@ -1,9 +1,9 @@
-query PokemonList {
-    findAll {
+query FindPokemonById($id: ID!) {
+    findPokemonById(id: $id) {
         id
         name
         front_default
         back_default
         types
     }
-}
+}n
