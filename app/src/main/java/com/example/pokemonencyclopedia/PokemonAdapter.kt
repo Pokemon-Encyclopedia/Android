@@ -35,7 +35,13 @@ class PokemonAdapter(private val list: List<PokemonListQuery.FindAll>, private v
                 .load(findAll.front_default)
                 .into(binding.image)
 
-            binding.name.text = findAll.name
+            val id = findAll.id
+            if (id?.toInt()!! < 10)
+                binding.name.text = "No.00$id ${findAll.name}"
+            else if (id.toInt() < 100)
+                binding.name.text = "No.0$id ${findAll.name}"
+            else
+                binding.name.text = "No.$id ${findAll.name}"
 
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {
