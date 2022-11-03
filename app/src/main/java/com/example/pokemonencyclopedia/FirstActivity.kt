@@ -13,7 +13,12 @@ class FirstActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.kantoMedal.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java)
+                .putExtra("id", 151))
+        }
+
+        binding.saintMedal.setOnClickListener {
+            // 251
         }
     }
 }

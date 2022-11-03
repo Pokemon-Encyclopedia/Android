@@ -6,4 +6,4 @@ query FindPokemonById($id: ID!) {
         back_default
         types
     }
-}n
+}
