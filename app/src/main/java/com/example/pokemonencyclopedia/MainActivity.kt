@@ -19,5 +19,9 @@ class MainActivity : AppCompatActivity() {
         binding.saintMedal.setOnClickListener {
             startActivity(Intent(this, SaintActivity::class.java))
         }
+
+        binding.hoennMedal.setOnClickListener {
+            startActivity(Intent(this, HoennActivity::class.java))
+        }
     }
 }
