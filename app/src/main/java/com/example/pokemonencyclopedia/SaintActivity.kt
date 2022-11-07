@@ -20,6 +20,7 @@ class SaintActivity : AppCompatActivity() {
         binding = ActivitySaintBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val strArray = resources.getStringArray(R.array.name)
         val apolloClient = ApolloClient.Builder()
             .serverUrl("http://10.120.74.59:8081/graphql")
             .build()
@@ -29,12 +30,14 @@ class SaintActivity : AppCompatActivity() {
 
             val data = res.data?.findAll
             val list = mutableListOf<PokemonListQuery.FindAll>()
+            val nameList = mutableListOf<String>()
 
             for (i in 151 until 251) {
                 list.add(data!![i]!!)
+                nameList.add(strArray[i])
             }
 
-            val adapter = PokemonAdapter(list, this@SaintActivity)
+            val adapter = PokemonAdapter(list, this@SaintActivity, nameList)
             binding.saintRecyclerView.adapter = adapter
             binding.saintRecyclerView.layoutManager = GridLayoutManager(this@SaintActivity, 3)
 
@@ -42,7 +45,7 @@ class SaintActivity : AppCompatActivity() {
                 override fun onClick(view: View, data: PokemonListQuery.FindAll, position: Int) {
                     startActivity(Intent(this@SaintActivity, PokemonInfoActivity::class.java)
                         .putExtra("dataId", data.id)
-                        .putExtra("dataName", data.name)
+                        .putExtra("dataName", nameList[position])
                         .putExtra("dataImg", data.front_default)
                         .putStringArrayListExtra("dataTypes", data.types as ArrayList<String>)
                     )

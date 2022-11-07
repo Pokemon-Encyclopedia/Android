@@ -20,6 +20,7 @@ class KantoActivity : AppCompatActivity() {
         binding = ActivityKantoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val strArray = resources.getStringArray(R.array.name)
         val apolloClient = ApolloClient.Builder()
             .serverUrl("http://10.120.74.59:8081/graphql")
             .build()
@@ -29,12 +30,14 @@ class KantoActivity : AppCompatActivity() {
 
             val data = res.data?.findAll
             val list = mutableListOf<PokemonListQuery.FindAll>()
+            val nameList = mutableListOf<String>()
 
             for (i in 0 until 151) {
                 list.add(data!![i]!!)
+                nameList.add(strArray[i])
             }
 
-            val adapter = PokemonAdapter(list as List<PokemonListQuery.FindAll>, this@KantoActivity)
+            val adapter = PokemonAdapter(list as List<PokemonListQuery.FindAll>, this@KantoActivity, nameList)
             binding.kantoRecyclerView.adapter = adapter
             binding.kantoRecyclerView.layoutManager = GridLayoutManager(this@KantoActivity, 3)
 
@@ -42,7 +45,7 @@ class KantoActivity : AppCompatActivity() {
                 override fun onClick(view: View, data: PokemonListQuery.FindAll, position: Int) {
                     startActivity(Intent(this@KantoActivity, PokemonInfoActivity::class.java)
                         .putExtra("dataId", data.id)
-                        .putExtra("dataName", data.name)
+                        .putExtra("dataName", nameList[position])
                         .putExtra("dataImg", data.front_default)
                         .putStringArrayListExtra("dataTypes", data.types as ArrayList<String>)
                     )

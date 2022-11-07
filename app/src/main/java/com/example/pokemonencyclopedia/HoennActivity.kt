@@ -20,6 +20,7 @@ class HoennActivity : AppCompatActivity() {
         binding = ActivityHoennBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val strArray = resources.getStringArray(R.array.name)
         val apolloClient = ApolloClient.Builder()
             .serverUrl("http://10.120.74.59:8081/graphql")
             .build()
@@ -29,12 +30,14 @@ class HoennActivity : AppCompatActivity() {
 
             val data = res.data?.findAll
             val list = mutableListOf<PokemonListQuery.FindAll>()
+            val nameList = mutableListOf<String>()
 
             for (i in 251 until 386) {
                 list.add(data!![i]!!)
+                nameList.add(strArray[i])
             }
 
-            val adapter = PokemonAdapter(list, this@HoennActivity)
+            val adapter = PokemonAdapter(list, this@HoennActivity, nameList)
             binding.hoennRecyclerView.adapter = adapter
             binding.hoennRecyclerView.layoutManager = GridLayoutManager(this@HoennActivity, 3)
 
@@ -42,7 +45,7 @@ class HoennActivity : AppCompatActivity() {
                 override fun onClick(view: View, data: PokemonListQuery.FindAll, position: Int) {
                     startActivity(Intent(this@HoennActivity, PokemonInfoActivity::class.java)
                         .putExtra("dataId", data.id)
-                        .putExtra("dataName", data.name)
+                        .putExtra("dataName", nameList[position])
                         .putExtra("dataImg", data.front_default)
                         .putStringArrayListExtra("dataTypes", data.types as ArrayList<String>)
                     )
