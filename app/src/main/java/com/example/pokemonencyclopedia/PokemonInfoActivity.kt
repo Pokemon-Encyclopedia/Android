@@ -21,6 +21,7 @@ class PokemonInfoActivity : AppCompatActivity() {
         binding = ActivityPokemonInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val strArray = resources.getStringArray(R.array.name)
         val id = intent.getStringExtra("dataId")
         val name = intent.getStringExtra("dataName")
         val img = intent.getStringExtra("dataImg")
@@ -33,6 +34,25 @@ class PokemonInfoActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.Main) {
             val resFront = apolloClient.query(FindPokemonByIdQuery("${id?.toInt()?.plus(1)}")).execute()
             val resBack = apolloClient.query(FindPokemonByIdQuery("${id?.toInt()?.minus(1)}")).execute()
+
+            binding.goFrontId.setOnClickListener {
+                finish()
+                startActivity(intent
+                    .putExtra("dataId", resBack.data?.findPokemonById?.id)
+                    .putExtra("dataName", strArray[resBack.data?.findPokemonById?.id!!.toInt()-1])
+                    .putExtra("dataImg", resBack.data?.findPokemonById?.front_default)
+                    .putExtra("dataTypes", resBack.data?.findPokemonById?.types as ArrayList<String>)
+                )
+            }
+            binding.goBackId.setOnClickListener {
+                finish()
+                startActivity(intent
+                    .putExtra("dataId", resFront.data?.findPokemonById?.id)
+                    .putExtra("dataName", strArray[resFront.data?.findPokemonById?.id!!.toInt()-1])
+                    .putExtra("dataImg", resFront.data?.findPokemonById?.front_default)
+                    .putExtra("dataTypes", resFront.data?.findPokemonById?.types as ArrayList<String>)
+                )
+            }
 
             if (id!!.toInt()-1 == 0) {
                 binding.pokemonInfoFront.visibility = View.INVISIBLE
@@ -51,7 +71,6 @@ class PokemonInfoActivity : AppCompatActivity() {
             .into(binding.pokemonImg)
         binding.pokemonName.text = "No." + setId(id) + " " + name
         if (type?.size == 1) {
-//            binding.pokemonType1.text = type[0]
             setType(type[0])
         } else {
             binding.type2CardView.visibility = View.VISIBLE
