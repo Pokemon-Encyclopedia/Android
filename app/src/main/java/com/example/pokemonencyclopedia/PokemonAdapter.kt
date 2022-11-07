@@ -1,6 +1,7 @@
 package com.example.pokemonencyclopedia
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,8 +41,10 @@ class PokemonAdapter(private val list: List<PokemonListQuery.FindAll>, private v
                 binding.name.text = "No.00$id ${findAll.name}"
             else if (id.toInt() < 100)
                 binding.name.text = "No.0$id ${findAll.name}"
-            else
+            else {
+                Log.d("ITEM", "bind: ${findAll.name}")
                 binding.name.text = "No.$id ${findAll.name}"
+            }
 
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {

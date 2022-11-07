@@ -37,7 +37,7 @@ class PokemonInfoActivity : AppCompatActivity() {
             if (id!!.toInt()-1 == 0) {
                 binding.pokemonInfoFront.visibility = View.INVISIBLE
                 setViewBack(resFront)
-            } else if (id.toInt()+1 == 252) {
+            } else if (id.toInt()+1 == 387) {
                 binding.pokemonInfoBack.visibility = View.INVISIBLE
                 setViewFront(resBack)
             } else {
@@ -49,7 +49,7 @@ class PokemonInfoActivity : AppCompatActivity() {
         Glide.with(this)
             .load(img)
             .into(binding.pokemonImg)
-        binding.pokemonName.text = setId(id) + " " + name
+        binding.pokemonName.text = "No." + setId(id) + " " + name
         if (type?.size == 1) {
 //            binding.pokemonType1.text = type[0]
             setType(type[0])
