@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name">PokemonEncyclopedia</string>
+
     <string-array name="name">
         <item>이상해씨</item>
         <item>이상해풀</item>
@@ -130,6 +132,7 @@
         <item>켄타로스</item>
         <item>잉어킹</item>
         <item>갸라도스</item>
+        <item>라프라스</item>
         <item>메타몽</item>
         <item>이브이</item>
         <item>샤미드</item>
